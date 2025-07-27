@@ -2,6 +2,9 @@ import requests
 import xml.etree.ElementTree as ET
 from math import radians, sin, cos, sqrt, atan2
 from AQIPython import calculate_aqi
+import numpy as np
+import math
+from sklearn.preprocessing import MinMaxScaler
 
 def haversine(lat1, lon1, lat2, lon2):
     R = 6371  
@@ -13,6 +16,25 @@ def haversine(lat1, lon1, lat2, lon2):
 CPCB_API_URL = "https://airquality.cpcb.gov.in/caaqms/rss_feed"
 REQUIRED_POLLUTANTS = {}
 
+
+url = "https://api.open-meteo.com/v1/forecast"
+
+def get_weather_features(lat, lon):
+    params = {
+        "latitude": lat,
+        "longitude": lon,
+        "current": "wind_speed_10m,wind_direction_10m",
+    }
+    response = requests.get(url, params=params)
+    weather_data = response.json()
+    print("Weather Data:", weather_data)
+
+    result = {
+        
+        "wind_speed": weather_data.get("current", {}).get("wind_speed_10m"),
+        "wind_direction": weather_data.get("current", {}).get("wind_direction_10m"),
+    }
+    return result
 
 
 def calculate_ruralAQI(lat: float, lon: float):
@@ -38,11 +60,16 @@ def calculate_ruralAQI(lat: float, lon: float):
 
 def calculate_pollutant_levels(lat: float, lon: float):
     nearest_levels = get_nearest_pollutant_levels(lat, lon)
+    print("Nearest Pollutant Levels:", nearest_levels)
+   
+    
+   
     result = {}
     power = 2  
     for pollutant, stations in nearest_levels.items():
         values = [s['Value'] for s in stations]
         distances = [s['Distance'] for s in stations]
+        
 
        
         for value, dist in zip(values, distances):
@@ -54,7 +81,7 @@ def calculate_pollutant_levels(lat: float, lon: float):
             weighted_sum = sum(w * v for w, v in zip(weights, values))
             weights_sum = sum(weights)
             interpolated_value = weighted_sum / weights_sum if weights_sum != 0 else None
-            result[pollutant] = interpolated_value
+            result[pollutant] = round(interpolated_value) if interpolated_value is not None else None
 
     return result
 
@@ -102,6 +129,8 @@ def get_nearest_five_stations(lat: float, lon: float):
             stations_data.append({
                 "NearestAQI": aqi,
                 "Distance": dist,
+                "lat": station_lat,
+                "lon": station_lon
             })
 
         
@@ -125,6 +154,9 @@ def get_nearest_pollutant_levels(lat: float, lon: float):
         raise Exception("Failed to fetch CPCB XML feed")
 
     root = ET.fromstring(response.content)
+    print(response.content)
+   
+  
     stations_data = []
     for station in root.findall(".//Station"):
         try:
@@ -151,26 +183,32 @@ def get_nearest_pollutant_levels(lat: float, lon: float):
                     pollutants[pid] = float(avg_val)
                 except ValueError:
                     continue
-
+        
+        
         stations_data.append({
             "Distance": dist,
+            "lat": station_lat,
+            "lon": station_lon,
             **pollutants
         })
-
-    
     result = {}
     for key in ["PM2.5", "PM10", "NO2", "SO2", "CO", "OZONE", "NH3"]:
         filtered = [s for s in stations_data if s[key] is not None]
         sorted_stations = sorted(filtered, key=lambda x: x["Distance"])[:5]
-        result[key] = [{"Distance": s["Distance"], "Value": s[key]} for s in sorted_stations]
+        result[key] = [{
+                "Distance": s["Distance"],
+                "Value": s[key],
+                "lat": s["lat"],
+                "lon": s["lon"],
+            }for s in sorted_stations]
 
     return result
 
 
 # res = calculate_ruralAQI(22.319258159974734, 73.21655888438862)
-# res2 = calculate_pollutant_levels(22.319258159974734, 73.21655888438862)
+
 # pollutant_units = {
-#     "PM2.5": "ug/m3",
+#     "PM25 ": "ug/m3",
 #     "PM10": "ug/m3",
 #     "NO2": "ug/m3",
 #     "SO2": "ug/m3",
@@ -179,6 +217,7 @@ def get_nearest_pollutant_levels(lat: float, lon: float):
 #     "NH3": "ug/m3"
 # }
 # aqi_results = {}
+# print(res2)
 # for pollutant, value in res2.items():
 #     unit = pollutant_units.get(pollutant, "ug/m3")
 #     try:
@@ -187,4 +226,208 @@ def get_nearest_pollutant_levels(lat: float, lon: float):
 #     except Exception as e:
 #         aqi_results[pollutant] = None
 
+# print("aqi",aqi_results)
 
+
+
+
+# def normalize_weather_vectors(vec1, vec2):
+#     scaler = MinMaxScaler()
+#     scaler.fit(np.array([
+#         [-10, 0, 0, 0, 950, 0, 0],
+#         [50, 20, 360, 100, 1050, 100, 100]
+#     ]))
+#     return scaler.transform([vec1, vec2])
+
+# def gaussian_kernel(vec1, vec2, sigma):
+#     vecs = normalize_weather_vectors(vec1, vec2)
+#     diff = np.array(vecs[0]) - np.array(vecs[1])
+#     return math.exp(-np.dot(diff, diff) / (2 * sigma ** 2))
+
+# def get_ruralAQI_with_weather(lat,lon):
+#     nearest_stations = get_nearest_five_stations(lat, lon)
+#     weather_features = ['temperature', 'wind_speed', 'wind_direction', 'relative_humidity', 'surface_pressure', 'cloud_cover', 'precipitation_probability']
+
+#     rural_weather = get_weather_features(lat, lon)
+#     rural_vector = [rural_weather[feat] for feat in weather_features]
+
+#     aqi_values = []
+#     weights = []
+
+#     for station in nearest_stations:
+#         dist = station['Distance']
+#         aqi = station['NearestAQI']
+#         station_weather = get_weather_features(station['lat'], station['lon'])
+#         station_vector = [station_weather[feat] for feat in weather_features]
+
+#         power = 2
+#         sigma = 1.5
+#         if dist == 0:
+#             return aqi
+#         if any(v is None for v in station_vector + rural_vector):
+#             continue
+
+#         spatial_weight = 1 / (dist ** power)
+#         feature_weight = gaussian_kernel(station_vector, rural_vector, sigma)
+#         total_weight = spatial_weight * feature_weight
+
+#         aqi_values.append(aqi)
+#         weights.append(total_weight)
+
+   
+#     if not weights:
+#         return None  
+
+#     weighted_sum = sum(w * aqi for w, aqi in zip(weights, aqi_values))
+#     total_weight = sum(weights)
+
+#     return weighted_sum / total_weight
+
+
+
+# aqi = get_ruralAQI_with_weather(22.319258159974734, 73.21655888438862)
+# print(f"Calculated Rural AQI: {aqi}")
+
+
+# url = "https://api.open-meteo.com/v1/forecast"
+
+
+# def wind_direction_weight(station_bearing, wind_direction, k=4):
+    
+#     angle_diff = math.radians((station_bearing - wind_direction + 360) % 360)
+    
+#     weight = (1 + math.cos(angle_diff)) / 2
+#     return weight ** k 
+
+# def calculate_bearing(lat1, lon1, lat2, lon2):
+#     d_lon = math.radians(lon2 - lon1)
+#     lat1 = math.radians(lat1)
+#     lat2 = math.radians(lat2)
+
+#     x = math.sin(d_lon) * math.cos(lat2)
+#     y = math.cos(lat1)*math.sin(lat2) - math.sin(lat1)*math.cos(lat2)*math.cos(d_lon)
+#     bearing = (math.degrees(math.atan2(x, y)) + 360) % 360
+#     return bearing
+
+
+# def get_ruralAQI_with_weather_with_wind_direction(lat,lon):
+#     nearest_stations = get_nearest_five_stations(lat, lon)
+#     weather_features = ['temperature', 'wind_speed', 'wind_direction', 'relative_humidity', 'surface_pressure', 'cloud_cover', 'precipitation_probability']
+
+#     rural_weather = get_weather_features(lat, lon)
+#     rural_vector = [rural_weather[feat] for feat in weather_features]
+#     rural_wind_direction = rural_weather['wind_direction']
+
+#     aqi_values = []
+#     weights = []
+
+#     for station in nearest_stations:
+#         dist = station['Distance']
+#         aqi = station['NearestAQI']
+#         station_lat = station['lat']
+#         station_lon = station['lon']
+#         station_weather = get_weather_features(station['lat'], station['lon'])
+#         station_vector = [station_weather[feat] for feat in weather_features]
+
+#         power = 2
+#         sigma = 1.5
+#         k_direction = 4
+#         if dist == 0:
+#             return aqi
+#         if any(v is None for v in station_vector + rural_vector):
+#             continue
+
+#         spatial_weight = 1 / (dist ** power)
+#         feature_weight = gaussian_kernel(station_vector, rural_vector, sigma)
+#         station_bearing = calculate_bearing(lat, lon, station_lat, station_lon)
+#         direction_weight = wind_direction_weight(station_bearing, rural_wind_direction, k=k_direction)
+#         total_weight = spatial_weight * feature_weight * direction_weight
+
+#         aqi_values.append(aqi)
+#         weights.append(total_weight)
+
+   
+#     if not weights:
+#         return None  
+
+#     weighted_sum = sum(w * aqi for w, aqi in zip(weights, aqi_values))
+#     total_weight = sum(weights)
+
+#     return weighted_sum / total_weight
+
+
+
+def calculate_indian_aqi(lat: float, lon: float) -> dict:
+
+    pollutants = calculate_pollutant_levels(lat, lon)
+
+    
+    breakpoints = {
+        'PM2.5': [
+            (0, 30, 0, 50),
+            (31, 60, 51, 100),
+            (61, 90, 101, 200),
+            (91, 120, 201, 300),
+            (121, 250, 301, 400),
+            (251, 500, 401, 500)
+        ],
+        'PM10': [
+            (0, 50, 0, 50),
+            (51, 100, 51, 100),
+            (101, 250, 101, 200),
+            (251, 350, 201, 300),
+            (351, 430, 301, 400),
+            (431, 1000, 401, 500)
+        ],
+        'SO2': [
+            (0, 40, 0, 50),
+            (41, 80, 51, 100),
+            (81, 380, 101, 200),
+            (381, 800, 201, 300),
+            (801, 1600, 301, 400),
+            (1601, 2000, 401, 500)
+        ],
+        'NO2': [
+            (0, 40, 0, 50),
+            (41, 80, 51, 100),
+            (81, 180, 101, 200),
+            (181, 280, 201, 300),
+            (281, 400, 301, 400),
+            (401, 1000, 401, 500)
+        ],
+        'O3': [
+            (0, 50, 0, 50),
+            (51, 100, 51, 100),
+            (101, 168, 101, 200),
+            (169, 208, 201, 300),
+            (209, 748, 301, 400),
+            (749, 1000, 401, 500)
+        ]
+    }
+
+    def calculate_individual_aqi(cp, pollutant):
+        
+        for (BP_Lo, BP_Hi, I_Lo, I_Hi) in breakpoints[pollutant]:
+            if BP_Lo <= cp <= BP_Hi:
+                return round(((I_Hi - I_Lo) / (BP_Hi - BP_Lo)) * (cp - BP_Lo) + I_Lo)
+        return None  
+
+    individual_aqis = {}
+    for pollutant, value in pollutants.items():
+        if pollutant in breakpoints:
+            aqi = calculate_individual_aqi(value, pollutant)
+            if aqi is not None:
+                individual_aqis[pollutant] = aqi
+
+    if not individual_aqis:
+        raise ValueError("No valid pollutant values provided for AQI calculation.")
+
+  
+    overall_aqi = max(individual_aqis.values())
+    dominant = max(individual_aqis, key=individual_aqis.get)
+
+    return {
+        "individual_aqis": individual_aqis,
+        "overall_aqi": overall_aqi,
+        "dominant_pollutant": dominant
+    }

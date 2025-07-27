@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List
-from Rural_Predection import calculate_ruralAQI,calculate_pollutant_levels
+from Rural_Predection import calculate_pollutant_levels,calculate_indian_aqi
 import requests
 url = "https://api.open-meteo.com/v1/forecast"
 
@@ -30,6 +30,7 @@ class RuralAQIRequest(BaseModel):
 
 class RuralAQIResponse(BaseModel):
     rural_aqi: float
+    dominant_pollutant: str
     data: List[dataResponseItem]
 
 
@@ -51,10 +52,13 @@ async def get_rural_aqi(request: RuralAQIRequest):
     lat = request.lat
     lon = request.lon
 
-    print(f"Received request for coordinates: lat={lat}, lon={lon}")
+   
 
-    rural_aqi  = calculate_ruralAQI(lat=lat,lon=lon)
+   
     pollutant_levels = calculate_pollutant_levels(lat,lon)
+    data = calculate_indian_aqi(lat,lon)
+    print(data)
+    
     data_items = [
         dataResponseItem(key=k, value=v)
         for k, v in pollutant_levels.items()
@@ -84,7 +88,8 @@ async def get_rural_aqi(request: RuralAQIRequest):
 
 
     return RuralAQIResponse(
-        rural_aqi=rural_aqi,  
+        rural_aqi=data["overall_aqi"], 
+        dominant_pollutant=data["dominant_pollutant"],
         data=data_items
     )
 

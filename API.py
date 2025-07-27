@@ -1,17 +1,15 @@
 import requests
 
-url = "https://bhoonidhi-api.nrsc.gov.in/data/search"
+url = "https://api.openaq.org/v3/locations?coordinates=28.6139,77.2090&radius=5000&limit=2"
+
 headers = {
-    "Authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoIiwiVXNlcklEIjoiT05MX01hbnVzaCIsIklQQWRkcmVzcyI6Ijo6MSIsIlNlc3Npb25JRCI6NSwiZXhwaXJlc0F0VGltZSI6IjIwMjUtMDctMjcgMTE6MjQ6NTAiLCJpYXQiOjE3NTM1OTIwOTAsImV4cCI6MTc1MzU5NTY5MH0.UANcKIh4pJJLU52iwc71yZx5y3w_Xw4XT62RpZHFhoI",
-    "Content-Type": "application/json"
+    "X-API-Key": "455bacaee86e68acc35ab84354d5acd5d2cf3682733b63a714623768c5125e95"  
 }
 
-payload = {
-"collections":["EOS-04_SAR-MRS_L2A","EOS-06_OCM-LAC_L1C"],
-"datetime": "2023-11-02T00:00:00Z/2023-11-03T23:59:59Z",
-"limit": 2
-}
+response = requests.get(url, headers=headers)
 
-
-response = requests.post(url, headers=headers, json=payload, timeout=60)
-print(response.status_code)
+if response.status_code == 200:
+    data = response.json()
+    print(data)
+else:
+    print("Error:", response.status_code, response.text)
