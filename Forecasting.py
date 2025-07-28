@@ -23,10 +23,12 @@ def get_weather_features(lat, lon):
     params = {
         "latitude": lat,
         "longitude": lon,
-        "current": "wind_speed_10m,wind_direction_10m,relative_humidity_2m,temperature_2m,surface_pressure_mean,precipitation_sum,shortwave_radiation_sum",
+        "current": "wind_speed_10m,wind_direction_10m,relative_humidity_2m,temperature_2m,precipitation,surface_pressure",
+        "daily": "shortwave_radiation_sum",
     }
     response = requests.get(url, params=params)
     weather_data = response.json()
+    
 
     result = {
         
@@ -34,9 +36,9 @@ def get_weather_features(lat, lon):
         "wind_direction": weather_data.get("current", {}).get("wind_direction_10m"),
         "relative_humidity": weather_data.get("current", {}).get("relative_humidity_2m"),
         "temperature": weather_data.get("current", {}).get("temperature_2m"),
-        "surface_pressure": weather_data.get("current", {}).get("surface_pressure_mean"),
-        "precipitation": weather_data.get("current", {}).get("precipitation_sum"),
-        "shortwave_radiation": weather_data.get("current", {}).get("shortwave_radiation_sum")
+        "precipitation": weather_data.get("current", {}).get("precipitation"),
+        "surface_pressure": weather_data.get("current", {}).get("surface_pressure"),
+        "shortwave_radiation_sum": weather_data.get("daily", {}).get("shortwave_radiation_sum", [None])[0]
     }
     return result
 
@@ -44,7 +46,7 @@ def get_forecasted_features(lat, lon):
     params = {
         "latitude": lat,
         "longitude": lon,
-        "daily": "temperature_2m_mean,relative_humidity_2m_mean,wind_speed_10m_mean,winddirection_10m_dominant",
+        "daily": "temperature_2m_mean,relative_humidity_2m_mean,wind_speed_10m_mean,winddirection_10m_dominant,precipitation_sum,shortwave_radiation_sum,surface_pressure_mean",
         "forecast_days": 3
     }
     response = requests.get(url, params=params)
@@ -57,9 +59,12 @@ def get_forecasted_features(lat, lon):
         "relative_humidity": daily.get("relative_humidity_2m_mean", [None, None])[1],
         "wind_speed": daily.get("wind_speed_10m_mean", [None, None])[1],
         "wind_direction": daily.get("winddirection_10m_dominant", [None, None])[1],
+        "precipitation": daily.get("precipitation_sum", [None, None])[1],
+        "shortwave_radiation_sum": daily.get("shortwave_radiation_sum",
+            [None, None])[1],
+        "surface_pressure": daily.get("surface_pressure_mean", [None, None])[1]
     }
     return result
-
 
 
 
