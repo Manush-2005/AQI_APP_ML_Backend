@@ -1,10 +1,8 @@
 import requests
 import xml.etree.ElementTree as ET
 from math import radians, sin, cos, sqrt, atan2
-from AQIPython import calculate_aqi
-import numpy as np
 import math
-from sklearn.preprocessing import MinMaxScaler
+
 
 def haversine(lat1, lon1, lat2, lon2):
     R = 6371  
