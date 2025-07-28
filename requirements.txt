@@ -4,4 +4,5 @@ pydantic
 requests
 pandas
 python-multipart
+joblib
 
