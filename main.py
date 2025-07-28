@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List
+from Forecasting import predict_pm25
 from Rural_Predection import calculate_pollutant_levels,calculate_indian_aqi
 import requests
 url = "https://api.open-meteo.com/v1/forecast"
@@ -41,6 +42,15 @@ class HealthAdviceRequest(BaseModel):
 class HealthAdviceResponse(BaseModel):
     advice: str
     precautions: List[str]
+
+
+class AQIForecastingRequest(BaseModel):
+    lat: float
+    lon: float
+    PM25: float
+
+class AQIForecastingResponse(BaseModel):
+    PM25_pred:float
 
 
     
@@ -94,6 +104,16 @@ async def get_rural_aqi(request: RuralAQIRequest):
     )
 
 
+@app.post("/aqi_forecasting", response_model=AQIForecastingResponse)
+async def get_aqi_forecasting(request: AQIForecastingRequest):
+
+    lat = request.lat
+    lon = request.lon
+    PM25 = request.PM25
+
+    PM25_pred = predict_pm25(PM25, lat, lon)
+
+    return AQIForecastingResponse(PM25_pred=PM25_pred)
 
 @app.post("/health_advice", response_model=HealthAdviceResponse)
 async def get_health_advice(request: HealthAdviceRequest):
