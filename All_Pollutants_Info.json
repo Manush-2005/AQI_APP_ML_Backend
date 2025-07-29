@@ -1,0 +1,198 @@
+{
+  "PM2.5_info": {
+    "general_info": "PM2.5 (Particulate Matter < 2.5 \u00b5m) - Actionable Advice",
+    "Good": {
+      "general_advice": "Air quality is excellent. Enjoy all outdoor activities without any specific precautions.",
+      "advice_children": "No restrictions. Encourage outdoor play and physical activity.",
+      "advice_adult": "No restrictions. Continue with regular outdoor routines, including strenuous exercise.",
+      "advice_senior": "No restrictions. Enjoy walks and other outdoor activities."
+    },
+    "Satisfactory": {
+      "general_advice": "Air quality is acceptable, but sensitive individuals may experience minor discomfort. Most people can continue with normal activities.",
+      "advice_children": "Children with respiratory conditions (e.g., asthma) should be monitored for symptoms. Limit prolonged strenuous outdoor play if symptoms appear.",
+      "advice_adult": "Individuals with pre-existing respiratory or heart conditions should consider reducing prolonged or heavy exertion outdoors. Others can continue normal activities.",
+      "advice_senior": "Seniors with heart or lung diseases should consider reducing prolonged or heavy exertion outdoors. Short walks are generally fine."
+    },
+    "Moderately Polluted": {
+      "general_advice": "Air quality is unhealthy for sensitive groups. General population may experience some discomfort on prolonged exposure.",
+      "advice_children": "Children, especially those with asthma or other respiratory issues, should avoid prolonged or heavy exertion outdoors. Outdoor sports should be limited or moved indoors. Parents should watch for symptoms like coughing or shortness of breath.",
+      "advice_adult": "Individuals with lung diseases (e.g., asthma, COPD) and heart diseases should avoid prolonged or heavy exertion outdoors. Others should reduce prolonged outdoor activities. Consider wearing a good quality mask (e.g., N95) if outdoor exposure is unavoidable.",
+      "advice_senior": "Seniors, especially those with heart or lung conditions, should avoid prolonged or heavy exertion outdoors. It is advisable to stay indoors as much as possible. If going outdoors, wear a good quality mask."
+    },
+    "Poor": {
+      "general_advice": "Air quality is unhealthy for everyone. Most people will experience breathing discomfort on prolonged exposure.",
+      "advice_children": "All children should avoid outdoor physical activity. Keep them indoors in a well-ventilated environment. Schools should cancel outdoor sports and activities.",
+      "advice_adult": "Everyone should reduce prolonged or heavy exertion outdoors. Individuals with respiratory or heart conditions should avoid all outdoor physical activity. Wear a good quality mask (e.g., N95) if outdoor exposure is absolutely necessary.",
+      "advice_senior": "All seniors should avoid all outdoor physical activity. Stay indoors and keep windows closed. Use air purifiers if available. If outdoor exposure is unavoidable, wear a good quality mask."
+    },
+    "Very Poor": {
+      "general_advice": "Air quality is very unhealthy, posing significant health risks to all. Respiratory illness is likely on prolonged exposure, even for healthy individuals.",
+      "advice_children": "All children should stay indoors. Avoid all outdoor activities. Ensure indoor air quality is good, using air purifiers if possible. Limit physical activity even indoors.",
+      "advice_adult": "Everyone should avoid all outdoor physical activity. Stay indoors and keep windows and doors closed. Use air purifiers. If outdoor exposure is unavoidable for short periods, wear an N95/P100 respirator. Limit strenuous indoor activities.",
+      "advice_senior": "All seniors should stay indoors and avoid all outdoor activities. Keep windows and doors closed. Use air purifiers. Seek medical advice if experiencing any respiratory or cardiovascular symptoms. Avoid any physical exertion."
+    },
+    "Severe": {
+      "general_advice": "Air quality is hazardous. This level poses severe health risks, including premature mortality. Emergency measures are often recommended.",
+      "advice_children": "All children must stay indoors. All outdoor activities should be strictly prohibited. Ensure indoor air quality is maintained with air purifiers. Limit all physical activity.",
+      "advice_adult": "Everyone should stay indoors. Avoid all outdoor activities. Keep windows and doors tightly closed. Use air purifiers. If outdoor exposure is absolutely unavoidable, wear an N95/P100 respirator. Limit all physical exertion, even indoors.",
+      "advice_senior": "All seniors must stay indoors and avoid all outdoor activities. Keep windows and doors tightly closed. Use air purifiers. Seek immediate medical attention if experiencing any severe symptoms. Avoid any physical exertion."
+    }
+  },
+  "SO2_info": {
+    "general_info": "SO2 (Sulfur Dioxide) - Actionable Advice",
+    "Good": {
+      "general_advice": "Air quality is excellent. Enjoy all outdoor activities without any specific precautions.",
+      "advice_children": "No restrictions. Encourage outdoor play and physical activity.",
+      "advice_adult": "No restrictions. Continue with regular outdoor routines, including strenuous exercise.",
+      "advice_senior": "No restrictions. Enjoy walks and other outdoor activities."
+    },
+    "Satisfactory": {
+      "general_advice": "Air quality is acceptable, but sensitive individuals may experience minor discomfort. Most people can continue with normal activities.",
+      "advice_children": "Children with respiratory conditions (e.g., asthma) should be monitored for symptoms. Limit prolonged strenuous outdoor play if symptoms appear.",
+      "advice_adult": "Individuals with pre-existing respiratory or heart conditions should consider reducing prolonged or heavy exertion outdoors. Others can continue normal activities.",
+      "advice_senior": "Seniors with heart or lung diseases should consider reducing prolonged or heavy exertion outdoors. Short walks are generally fine."
+    },
+    "Moderately Polluted": {
+      "general_advice": "Air quality is unhealthy for sensitive groups. General population may experience some discomfort on prolonged exposure.",
+      "advice_children": "Children, especially those with asthma or other respiratory issues, should avoid prolonged or heavy exertion outdoors. Outdoor sports should be limited or moved indoors. Parents should watch for symptoms like coughing or shortness of breath.",
+      "advice_adult": "Individuals with lung diseases (e.g., asthma, COPD) and heart diseases should avoid prolonged or heavy exertion outdoors. Others should reduce prolonged outdoor activities. Consider wearing a good quality mask (e.g., N95) if outdoor exposure is unavoidable.",
+      "advice_senior": "Seniors, especially those with heart or lung conditions, should avoid prolonged or heavy exertion outdoors. It is advisable to stay indoors as much as possible. If going outdoors, wear a good quality mask."
+    },
+    "Poor": {
+      "general_advice": "Air quality is unhealthy for everyone. Most people will experience breathing discomfort on prolonged exposure.",
+      "advice_children": "All children should avoid outdoor physical activity. Keep them indoors in a well-ventilated environment. Schools should cancel outdoor sports and activities.",
+      "advice_adult": "Everyone should reduce prolonged or heavy exertion outdoors. Individuals with respiratory or heart conditions should avoid all outdoor physical activity. Wear a good quality mask (e.g., N95) if outdoor exposure is absolutely necessary.",
+      "advice_senior": "All seniors should avoid all outdoor physical activity. Stay indoors and keep windows closed. Use air purifiers if available. If outdoor exposure is unavoidable, wear a good quality mask."
+    },
+    "Very Poor": {
+      "general_advice": "Air quality is very unhealthy, posing significant health risks to all. Respiratory illness is likely on prolonged exposure, even for healthy individuals.",
+      "advice_children": "All children should stay indoors. Avoid all outdoor activities. Ensure indoor air quality is good, using air purifiers if possible. Limit physical activity even indoors.",
+      "advice_adult": "Everyone should avoid all outdoor physical activity. Stay indoors and keep windows and doors closed. Use air purifiers. If outdoor exposure is unavoidable for short periods, wear an N95/P100 respirator. Limit strenuous indoor activities.",
+      "advice_senior": "All seniors should stay indoors and avoid all outdoor activities. Keep windows and doors closed. Use air purifiers. Seek medical advice if experiencing any respiratory or cardiovascular symptoms. Avoid any physical exertion."
+    },
+    "Severe": {
+      "general_advice": "Air quality is hazardous. This level poses severe health risks, including premature mortality. Emergency measures are often recommended.",
+      "advice_children": "All children must stay indoors. All outdoor activities should be strictly prohibited. Ensure indoor air quality is maintained with air purifiers. Limit all physical activity.",
+      "advice_adult": "Everyone should stay indoors. Avoid all outdoor activities. Keep windows and doors tightly closed. Use air purifiers. If outdoor exposure is absolutely unavoidable, wear an N95/P100 respirator. Limit all physical exertion, even indoors.",
+      "advice_senior": "All seniors must stay indoors and avoid all outdoor activities. Keep windows and doors tightly closed. Use air purifiers. Seek immediate medical attention if experiencing any severe symptoms. Avoid any physical exertion."
+    }
+  },
+  "NO2_info": {
+    "general_info": "NO2 (Nitrogen Dioxide) - Actionable Advice",
+    "Good": {
+      "general_advice": "Air quality is excellent. Enjoy all outdoor activities without any specific precautions.",
+      "advice_children": "No restrictions. Encourage outdoor play and physical activity.",
+      "advice_adult": "No restrictions. Continue with regular outdoor routines, including strenuous exercise.",
+      "advice_senior": "No restrictions. Enjoy walks and other outdoor activities."
+    },
+    "Satisfactory": {
+      "general_advice": "Air quality is acceptable, but sensitive individuals may experience minor discomfort. Most people can continue with normal activities.",
+      "advice_children": "Children with respiratory conditions (e.g., asthma) should be monitored for symptoms. Limit prolonged strenuous outdoor play if symptoms appear.",
+      "advice_adult": "Individuals with pre-existing respiratory or heart conditions should consider reducing prolonged or heavy exertion outdoors. Others can continue normal activities.",
+      "advice_senior": "Seniors with heart or lung diseases should consider reducing prolonged or heavy exertion outdoors. Short walks are generally fine."
+    },
+    "Moderately Polluted": {
+      "general_advice": "Air quality is unhealthy for sensitive groups. General population may experience some discomfort on prolonged exposure.",
+      "advice_children": "Children, especially those with asthma or other respiratory issues, should avoid prolonged or heavy exertion outdoors. Outdoor sports should be limited or moved indoors. Parents should watch for symptoms like coughing or shortness of breath.",
+      "advice_adult": "Individuals with lung diseases (e.g., asthma, COPD) and heart diseases should avoid prolonged or heavy exertion outdoors. Others should reduce prolonged outdoor activities. Consider wearing a good quality mask (e.g., N95) if outdoor exposure is unavoidable.",
+      "advice_senior": "Seniors, especially those with heart or lung conditions, should avoid prolonged or heavy exertion outdoors. It is advisable to stay indoors as much as possible. If going outdoors, wear a good quality mask."
+    },
+    "Poor": {
+      "general_advice": "Air quality is unhealthy for everyone. Most people will experience breathing discomfort on prolonged exposure.",
+      "advice_children": "All children should avoid outdoor physical activity. Keep them indoors in a well-ventilated environment. Schools should cancel outdoor sports and activities.",
+      "advice_adult": "Everyone should reduce prolonged or heavy exertion outdoors. Individuals with respiratory or heart conditions should avoid all outdoor physical activity. Wear a good quality mask (e.g., N95) if outdoor exposure is absolutely necessary.",
+      "advice_senior": "All seniors should avoid all outdoor physical activity. Stay indoors and keep windows closed. Use air purifiers if available. If outdoor exposure is unavoidable, wear a good quality mask."
+    },
+    "Very Poor": {
+      "general_advice": "Air quality is very unhealthy, posing significant health risks to all. Respiratory illness is likely on prolonged exposure, even for healthy individuals.",
+      "advice_children": "All children should stay indoors. Avoid all outdoor activities. Ensure indoor air quality is good, using air purifiers if possible. Limit physical activity even indoors.",
+      "advice_adult": "Everyone should avoid all outdoor physical activity. Stay indoors and keep windows and doors closed. Use air purifiers. If outdoor exposure is unavoidable for short periods, wear an N95/P100 respirator. Limit strenuous indoor activities.",
+      "advice_senior": "All seniors should stay indoors and avoid all outdoor activities. Keep windows and doors closed. Use air purifiers. Seek medical advice if experiencing any respiratory or cardiovascular symptoms. Avoid any physical exertion."
+    },
+    "Severe": {
+      "general_advice": "Air quality is hazardous. This level poses severe health risks, including premature mortality. Emergency measures are often recommended.",
+      "advice_children": "All children must stay indoors. All outdoor activities should be strictly prohibited. Ensure indoor air quality is maintained with air purifiers. Limit all physical activity.",
+      "advice_adult": "Everyone should stay indoors. Avoid all outdoor activities. Keep windows and doors tightly closed. Use air purifiers. If outdoor exposure is absolutely unavoidable, wear an N95/P100 respirator. Limit all physical exertion, even indoors.",
+      "advice_senior": "All seniors must stay indoors and avoid all outdoor activities. Keep windows and doors tightly closed. Use air purifiers. Seek immediate medical attention if experiencing any severe symptoms. Avoid any physical exertion."
+    }
+  },
+  "O3_info": {
+    "general_info": "Ozone (O3) - Actionable Advice",
+    "Good": {
+      "general_advice": "Air quality is excellent. Enjoy all outdoor activities without any specific precautions.",
+      "advice_children": "No restrictions. Encourage outdoor play and physical activity.",
+      "advice_adult": "No restrictions. Continue with regular outdoor routines, including strenuous exercise.",
+      "advice_senior": "No restrictions. Enjoy walks and other outdoor activities."
+    },
+    "Satisfactory": {
+      "general_advice": "Air quality is acceptable, but sensitive individuals may experience minor discomfort. Most people can continue with normal activities.",
+      "advice_children": "Children with respiratory conditions (e.g., asthma) should be monitored for symptoms. Limit prolonged strenuous outdoor play if symptoms appear.",
+      "advice_adult": "Individuals with pre-existing respiratory or heart conditions should consider reducing prolonged or heavy exertion outdoors. Others can continue normal activities.",
+      "advice_senior": "Seniors with heart or lung diseases should consider reducing prolonged or heavy exertion outdoors. Short walks are generally fine."
+    },
+    "Moderately Polluted": {
+      "general_advice": "Air quality is unhealthy for sensitive groups. General population may experience some discomfort on prolonged exposure.",
+      "advice_children": "Children, especially those with asthma or other respiratory issues, should avoid prolonged or heavy exertion outdoors. Outdoor sports should be limited or moved indoors. Parents should watch for symptoms like coughing or shortness of breath.",
+      "advice_adult": "Individuals with lung diseases (e.g., asthma, COPD) and heart diseases should avoid prolonged or heavy exertion outdoors. Others should reduce prolonged outdoor activities. Consider wearing a good quality mask (e.g., N95) if outdoor exposure is unavoidable.",
+      "advice_senior": "Seniors, especially those with heart or lung conditions, should avoid prolonged or heavy exertion outdoors. It is advisable to stay indoors as much as possible. If going outdoors, wear a good quality mask."
+    },
+    "Poor": {
+      "general_advice": "Air quality is unhealthy for everyone. Most people will experience breathing discomfort on prolonged exposure.",
+      "advice_children": "All children should avoid outdoor physical activity. Keep them indoors in a well-ventilated environment. Schools should cancel outdoor sports and activities.",
+      "advice_adult": "Everyone should reduce prolonged or heavy exertion outdoors. Individuals with respiratory or heart conditions should avoid all outdoor physical activity. Wear a good quality mask (e.g., N95) if outdoor exposure is absolutely necessary.",
+      "advice_senior": "All seniors should avoid all outdoor physical activity. Stay indoors and keep windows closed. Use air purifiers if available. If outdoor exposure is unavoidable, wear a good quality mask."
+    },
+    "Very Poor": {
+      "general_advice": "Air quality is very unhealthy, posing significant health risks to all. Respiratory illness is likely on prolonged exposure, even for healthy individuals.",
+      "advice_children": "All children should stay indoors. Avoid all outdoor activities. Ensure indoor air quality is good, using air purifiers if possible. Limit physical activity even indoors.",
+      "advice_adult": "Everyone should avoid all outdoor physical activity. Stay indoors and keep windows and doors closed. Use air purifiers. If outdoor exposure is unavoidable for short periods, wear an N95/P100 respirator. Limit strenuous indoor activities.",
+      "advice_senior": "All seniors should stay indoors and avoid all outdoor activities. Keep windows and doors closed. Use air purifiers. Seek medical advice if experiencing any respiratory or cardiovascular symptoms. Avoid any physical exertion."
+    },
+    "Severe": {
+      "general_advice": "Air quality is hazardous. This level poses severe health risks, including premature mortality. Emergency measures are often recommended.",
+      "advice_children": "All children must stay indoors. All outdoor activities should be strictly prohibited. Ensure indoor air quality is maintained with air purifiers. Limit all physical activity.",
+      "advice_adult": "Everyone should stay indoors. Avoid all outdoor activities. Keep windows and doors tightly closed. Use air purifiers. If outdoor exposure is absolutely unavoidable, wear an N95/P100 respirator. Limit all physical exertion, even indoors.",
+      "advice_senior": "All seniors must stay indoors and avoid all outdoor activities. Keep windows and doors tightly closed. Use air purifiers. Seek immediate medical attention if experiencing any severe symptoms. Avoid any physical exertion."
+    }
+  },
+  "PM10_info": {
+    "general_info": "PM10 (Particulate Matter < 10 \u00b5m) - Actionable Advice",
+ 
+  "Good": {
+    "general_advice": "Air quality is excellent. Enjoy all outdoor activities without any specific precautions.",
+    "advice_children": "No restrictions. Encourage outdoor play and physical activity.",
+    "advice_adult": "No restrictions. Continue with regular outdoor routines, including strenuous exercise.",
+    "advice_senior": "No restrictions. Enjoy walks and other outdoor activities."
+  },
+  "Satisfactory": {
+    "general_advice": "Air quality is acceptable, but sensitive individuals may experience minor discomfort. Most people can continue with normal activities.",
+    "advice_children": "Children with respiratory conditions (e.g., asthma) should be monitored for symptoms. Limit prolonged strenuous outdoor play if symptoms appear.",
+    "advice_adult": "Individuals with pre-existing respiratory or heart conditions should consider reducing prolonged or heavy exertion outdoors. Others can continue normal activities.",
+    "advice_senior": "Seniors with heart or lung diseases should consider reducing prolonged or heavy exertion outdoors. Short walks are generally fine."
+  },
+  "Moderately Polluted": {
+    "general_advice": "Air quality is unhealthy for sensitive groups. General population may experience some discomfort on prolonged exposure.",
+    "advice_children": "Children, especially those with asthma or other respiratory issues, should avoid prolonged or heavy exertion outdoors. Outdoor sports should be limited or moved indoors. Parents should watch for symptoms like coughing or shortness of breath.",
+    "advice_adult": "Individuals with lung diseases (e.g., asthma, COPD) and heart diseases should avoid prolonged or heavy exertion outdoors. Others should reduce prolonged outdoor activities. Consider wearing a good quality mask (e.g., N95) if outdoor exposure is unavoidable.",
+    "advice_senior": "Seniors, especially those with heart or lung conditions, should avoid prolonged or heavy exertion outdoors. It is advisable to stay indoors as much as possible. If going outdoors, wear a good quality mask."
+  },
+  "Poor": {
+    "general_advice": "Air quality is unhealthy for everyone. Most people will experience breathing discomfort on prolonged exposure.",
+    "advice_children": "All children should avoid outdoor physical activity. Keep them indoors in a well-ventilated environment. Schools should cancel outdoor sports and activities.",
+    "advice_adult": "Everyone should reduce prolonged or heavy exertion outdoors. Individuals with respiratory or heart conditions should avoid all outdoor physical activity. Wear a good quality mask (e.g., N95) if outdoor exposure is absolutely necessary.",
+    "advice_senior": "All seniors should avoid all outdoor physical activity. Stay indoors and keep windows closed. Use air purifiers if available. If outdoor exposure is unavoidable, wear a good quality mask."
+  },
+  "Very Poor": {
+    "general_advice": "Air quality is very unhealthy, posing significant health risks to all. Respiratory illness is likely on prolonged exposure, even for healthy individuals.",
+    "advice_children": "All children should stay indoors. Avoid all outdoor activities. Ensure indoor air quality is good, using air purifiers if possible. Limit physical activity even indoors.",
+    "advice_adult": "Everyone should avoid all outdoor physical activity. Stay indoors and keep windows and doors closed. Use air purifiers. If outdoor exposure is unavoidable for short periods, wear an N95/P100 respirator. Limit strenuous indoor activities.",
+    "advice_senior": "All seniors should stay indoors and avoid all outdoor activities. Keep windows and doors closed. Use air purifiers. Seek medical advice if experiencing any respiratory or cardiovascular symptoms. Avoid any physical exertion."
+  },
+  "Severe": {
+    "general_advice": "Air quality is hazardous. This level poses severe health risks, including premature mortality. Emergency measures are often recommended.",
+    "advice_children": "All children must stay indoors. All outdoor activities should be strictly prohibited. Ensure indoor air quality is maintained with air purifiers. Limit all physical activity.",
+    "advice_adult": "Everyone should stay indoors. Avoid all outdoor activities. Keep windows and doors tightly closed. Use air purifiers. If outdoor exposure is absolutely unavoidable, wear an N95/P100 respirator. Limit all physical exertion, even indoors.",
+    "advice_senior": "All seniors must stay indoors and avoid all outdoor activities. Keep windows and doors tightly closed. Use air purifiers. Seek immediate medical attention if experiencing any severe symptoms. Avoid any physical exertion."
+  }
+}
+}

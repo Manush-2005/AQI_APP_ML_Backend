@@ -5,6 +5,7 @@ from typing import List
 from Forecasting import predict_pm25, predict_pm10, predict_O3, predict_NO2, predict_SO2
 from Rural_Predection import calculate_pollutant_levels,calculate_indian_aqi
 import requests
+from HealthAdvice import get_health_advice
 url = "https://api.open-meteo.com/v1/forecast"
 
 
@@ -37,11 +38,14 @@ class RuralAQIResponse(BaseModel):
 
 class HealthAdviceRequest(BaseModel):
     rural_aqi: float
+    dominant_pollutant: str
     data: List[dataResponseItem]
 
-class HealthAdviceResponse(BaseModel):
-    advice: str
-    precautions: List[str]
+class HealthAdviceOutput(BaseModel):
+    general_overview: str
+    childeren_advice: str
+    elderly_advice: str
+    adult_advice: str
 
 
 class AQIForecastingRequest(BaseModel):
@@ -130,17 +134,10 @@ async def get_aqi_forecasting(request: AQIForecastingRequest):
 
     return AQIForecastingResponse(PM25_pred=PM25_pred, PM10_pred=PM10_pred, NO2_pred=NO2_pred, SO2_pred=SO2_pred, O3_pred=O3_pred)
 
-@app.post("/health_advice", response_model=HealthAdviceResponse)
-async def get_health_advice(request: HealthAdviceRequest):
-    current_aqi = request.rural_aqi
-    data = request.data
+@app.post("/health_advice", response_model=HealthAdviceOutput)
+async def get_health_advice_route(request: HealthAdviceRequest):
 
-    return HealthAdviceResponse(
-        advice="The air quality is good. You can go outside without any concerns.",
-        precautions=[
-            "Enjoy outdoor activities.",
-            "No need for masks or special precautions."
-        ]
-    )
+    res = get_health_advice(request)
+    return res
 
 
