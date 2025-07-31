@@ -6,4 +6,6 @@ pandas
 python-multipart
 joblib
 xgboost
+numpy
+groq
 

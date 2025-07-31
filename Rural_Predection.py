@@ -2,6 +2,7 @@ import requests
 import xml.etree.ElementTree as ET
 from math import radians, sin, cos, sqrt, atan2
 import math
+import numpy as np
 
 
 def haversine(lat1, lon1, lat2, lon2):
@@ -21,16 +22,17 @@ def get_weather_features(lat, lon):
     params = {
         "latitude": lat,
         "longitude": lon,
-        "current": "wind_speed_10m,wind_direction_10m",
+        "current": "wind_speed_10m,wind_direction_10m,temperature_2m",
+        "timezone": "Asia/Kolkata"
     }
     response = requests.get(url, params=params)
     weather_data = response.json()
-    print("Weather Data:", weather_data)
 
     result = {
         
         "wind_speed": weather_data.get("current", {}).get("wind_speed_10m"),
         "wind_direction": weather_data.get("current", {}).get("wind_direction_10m"),
+        "temperature": weather_data.get("current", {}).get("temperature_2m"),
     }
     return result
 
@@ -56,32 +58,6 @@ def calculate_ruralAQI(lat: float, lon: float):
     return interpolated_aqi
 
 
-def calculate_pollutant_levels(lat: float, lon: float):
-    nearest_levels = get_nearest_pollutant_levels(lat, lon)
-    print("Nearest Pollutant Levels:", nearest_levels)
-   
-    
-   
-    result = {}
-    power = 2  
-    for pollutant, stations in nearest_levels.items():
-        values = [s['Value'] for s in stations]
-        distances = [s['Distance'] for s in stations]
-        
-
-       
-        for value, dist in zip(values, distances):
-            if dist == 0:
-                result[pollutant] = value
-                break
-        else:
-            weights = [1 / (d ** power) if d != 0 else 0 for d in distances]
-            weighted_sum = sum(w * v for w, v in zip(weights, values))
-            weights_sum = sum(weights)
-            interpolated_value = weighted_sum / weights_sum if weights_sum != 0 else None
-            result[pollutant] = round(interpolated_value) if interpolated_value is not None else None
-
-    return result
 
 
 
@@ -152,7 +128,7 @@ def get_nearest_pollutant_levels(lat: float, lon: float):
         raise Exception("Failed to fetch CPCB XML feed")
 
     root = ET.fromstring(response.content)
-    print(response.content)
+    # print(response.content)
    
   
     stations_data = []
@@ -160,6 +136,7 @@ def get_nearest_pollutant_levels(lat: float, lon: float):
         try:
             station_lat = float(station.attrib["latitude"])
             station_lon = float(station.attrib["longitude"])
+            name = station.attrib["id"]
         except (KeyError, ValueError):
             continue
 
@@ -187,6 +164,7 @@ def get_nearest_pollutant_levels(lat: float, lon: float):
             "Distance": dist,
             "lat": station_lat,
             "lon": station_lon,
+            "Name": name,
             **pollutants
         })
     result = {}
@@ -198,9 +176,66 @@ def get_nearest_pollutant_levels(lat: float, lon: float):
                 "Value": s[key],
                 "lat": s["lat"],
                 "lon": s["lon"],
+                "Name": s["Name"]
             }for s in sorted_stations]
 
     return result
+
+def compute_weight(distance, weather_diff, alpha=1.0, beta=1.0):
+   
+    return np.exp(-alpha * distance**2 - beta * weather_diff**2)
+
+
+def calculate_pollutant_levels(lat: float, lon: float):
+    nearest_levels = get_nearest_pollutant_levels(lat, lon)
+    # print(nearest_levels)
+    user_weather = get_weather_features(lat, lon)
+
+    distance_threshold = 10.0 
+   
+    
+   
+    result = {}
+ 
+    for pollutant, stations in nearest_levels.items():
+        values = [s['Value'] for s in stations]
+        distances = [s['Distance'] for s in stations]
+        weather_diffs = []
+
+        for s in stations:
+            station_weather = get_weather_features(s["lat"], s["lon"])
+            weather_diff = (
+                abs(user_weather['temperature'] - station_weather['temperature']) +
+                abs(user_weather['wind_speed'] - station_weather['wind_speed']) +
+                abs(user_weather['wind_direction'] - station_weather['wind_direction']) / 180
+            )
+            weather_diffs.append(weather_diff)
+        max_dist = max(distances) if distances else 1
+        max_weather_diff = max(weather_diffs) if weather_diffs else 1
+        
+
+       
+        for value, dist in zip(values, distances):
+            if dist <= distance_threshold:
+                result[pollutant] = value
+                break
+        else:
+            weights = []
+            for s, value, dist in zip(stations, values, distances):
+                scaled_dist = dist / max_dist if max_dist != 0 else 0
+                scaled_weather_diff = weather_diff / max_weather_diff if max_weather_diff != 0 else 0
+                weight = compute_weight(scaled_dist, scaled_weather_diff, alpha=1.0, beta=1.0)
+                weights.append(weight)
+
+                
+
+            weighted_sum = sum(w * v for w, v in zip(weights, values))
+            weights_sum = sum(weights)
+            interpolated_value = weighted_sum / weights_sum if weights_sum != 0 else None
+            result[pollutant] = round(interpolated_value) if interpolated_value is not None else None
+
+    return result
+
 
 
 # res = calculate_ruralAQI(22.319258159974734, 73.21655888438862)
@@ -355,9 +390,9 @@ def get_nearest_pollutant_levels(lat: float, lon: float):
 
 
 
-def calculate_indian_aqi(lat: float, lon: float) -> dict:
+def calculate_indian_aqi(lat: float, lon: float,pollutants: dict) -> dict:
 
-    pollutants = calculate_pollutant_levels(lat, lon)
+ 
 
     
     breakpoints = {

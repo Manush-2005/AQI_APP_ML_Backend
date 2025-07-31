@@ -79,8 +79,8 @@ async def get_rural_aqi(request: RuralAQIRequest):
 
    
     pollutant_levels = calculate_pollutant_levels(lat,lon)
-    data = calculate_indian_aqi(lat,lon)
-    print(data)
+    data = calculate_indian_aqi(lat,lon,pollutants=pollutant_levels)
+   
     
     data_items = [
         dataResponseItem(key=k, value=v)
