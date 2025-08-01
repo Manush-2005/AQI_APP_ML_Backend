@@ -221,11 +221,12 @@ def calculate_pollutant_levels(lat: float, lon: float):
                 break
         else:
             weights = []
-            for s, value, dist in zip(stations, values, distances):
-                scaled_dist = dist / max_dist if max_dist != 0 else 0
-                scaled_weather_diff = weather_diff / max_weather_diff if max_weather_diff != 0 else 0
-                weight = compute_weight(scaled_dist, scaled_weather_diff, alpha=1.0, beta=1.0)
-                weights.append(weight)
+            for s, value, dist, weather_diff in zip(stations, values, distances, weather_diffs):
+              scaled_dist = dist / max_dist if max_dist != 0 else 0
+              scaled_weather_diff = weather_diff / max_weather_diff if max_weather_diff != 0 else 0
+              weight = compute_weight(scaled_dist, scaled_weather_diff, alpha=1.0, beta=1.0)
+              weights.append(weight)
+
 
                 
 
