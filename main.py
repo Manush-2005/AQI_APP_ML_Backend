@@ -6,6 +6,9 @@ from Forecasting import predict_pm25, predict_pm10, predict_O3, predict_NO2, pre
 from Rural_Predection import calculate_pollutant_levels,calculate_indian_aqi
 import requests
 from HealthAdvice import get_health_advice
+import json
+from geopy.distance import geodesic
+from redis_client import r
 url = "https://api.open-meteo.com/v1/forecast"
 
 
@@ -65,6 +68,28 @@ class AQIForecastingResponse(BaseModel):
     SO2_pred:float
     O3_pred:float
 
+# Caching function using redis
+
+CACHE_RADIUS_KM = 3  
+CACHE_TTL_SECONDS = 1800  
+
+def is_within_radius(coord1, coord2, radius_km=3):
+    return geodesic(coord1, coord2).km <= radius_km
+
+def find_nearby_cached_key(lat, lon):
+    all_keys = r.keys("rural_aqi:*")
+    for key in all_keys:
+        try:
+            _, k_lat, k_lon = key.split(":")
+            k_lat = float(k_lat)
+            k_lon = float(k_lon)
+            if is_within_radius((lat, lon), (k_lat, k_lon)):
+                return key
+        except:
+            continue
+    return None
+
+
 
     
 # Endpoint to hit for rural AQI data
@@ -74,6 +99,13 @@ async def get_rural_aqi(request: RuralAQIRequest):
 
     lat = request.lat
     lon = request.lon
+
+    cached_key = find_nearby_cached_key(lat, lon)
+    if cached_key:
+        cached_data = r.get(cached_key)
+        if cached_data:
+            print("Returning from cache.")
+            return json.loads(cached_data)
 
    
 
@@ -108,13 +140,18 @@ async def get_rural_aqi(request: RuralAQIRequest):
         for k, v in result.items()
     ]
 
-
-
-    return RuralAQIResponse(
-        rural_aqi=data["overall_aqi"], 
+    final_response = RuralAQIResponse(
+        rural_aqi=data["overall_aqi"],
         dominant_pollutant=data["dominant_pollutant"],
         data=data_items
     )
+
+    cache_key = f"rural_aqi:{lat}:{lon}"
+    r.setex(cache_key, CACHE_TTL_SECONDS, json.dumps(final_response.model_dump()))
+
+
+
+    return final_response
 
 
 @app.post("/aqi_forecasting", response_model=AQIForecastingResponse)
@@ -140,4 +177,13 @@ async def get_health_advice_route(request: HealthAdviceRequest):
     res = get_health_advice(request)
     return res
 
+
+# Endpoint to get hospitals for area beyond a level 
+
+# @app.get("/hospitals")
+# async def get_nearest_hospitals(lat: float, lon: float):
+#     get_nearest_hospital = 
+
+
+# 
 

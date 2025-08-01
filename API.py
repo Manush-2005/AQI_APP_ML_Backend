@@ -1,15 +1,25 @@
 import requests
 
-url = "https://api.openaq.org/v3/locations?coordinates=28.6139,77.2090&radius=5000&limit=2"
-
-headers = {
-    "X-API-Key": "455bacaee86e68acc35ab84354d5acd5d2cf3682733b63a714623768c5125e95"  
-}
-
-response = requests.get(url, headers=headers)
-
-if response.status_code == 200:
+def get_nearby_hospitals(lat, lon, radius):
+    overpass_url = "https://overpass-api.de/api/interpreter"
+    query = f"""
+    [out:json];
+    (
+        node(around:{radius},{lat},{lon})["amenity"="hospital"];
+        way(around:{radius},{lat},{lon})["amenity"="hospital"];
+        relation(around:{radius},{lat},{lon})["amenity"="hospital"];
+    );
+    out center 5;
+    """
+    response = requests.get(overpass_url, params={'data': query})
     data = response.json()
-    print(data)
-else:
-    print("Error:", response.status_code, response.text)
+    return data["elements"]
+
+
+lat = 22.319258159974734
+lon = 73.21655888438862 
+radius = 2000
+
+hospitals = get_nearby_hospitals(lat, lon, radius)
+for hospital in hospitals:
+    print(hospital)
