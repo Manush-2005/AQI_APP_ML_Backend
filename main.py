@@ -46,9 +46,7 @@ class HealthAdviceRequest(BaseModel):
 
 class HealthAdviceOutput(BaseModel):
     general_overview: str
-    childeren_advice: str
-    elderly_advice: str
-    adult_advice: str
+    genral_advice: str
 
 
 class AQIForecastingRequest(BaseModel):
@@ -100,18 +98,22 @@ async def get_rural_aqi(request: RuralAQIRequest):
     lat = request.lat
     lon = request.lon
 
-    cached_key = find_nearby_cached_key(lat, lon)
-    if cached_key:
-        cached_data = r.get(cached_key)
-        if cached_data:
-            print("Returning from cache.")
-            return json.loads(cached_data)
+    # cached_key = find_nearby_cached_key(lat, lon)
+    # if cached_key:
+    #     cached_data = r.get(cached_key)
+    #     if cached_data:
+    #         print("Returning from cache.")
+    #         return json.loads(cached_data)
+
 
    
 
    
     pollutant_levels = calculate_pollutant_levels(lat,lon)
-    data = calculate_indian_aqi(lat,lon,pollutants=pollutant_levels)
+    print(pollutant_levels)
+    # data = calculate_indian_aqi(lat,lon,pollutants=pollutant_levels)
+    dominant_pollutant = max(pollutant_levels, key=pollutant_levels.get)
+    rural_aqi = pollutant_levels[dominant_pollutant]
    
     
     data_items = [
@@ -141,8 +143,8 @@ async def get_rural_aqi(request: RuralAQIRequest):
     ]
 
     final_response = RuralAQIResponse(
-        rural_aqi=data["overall_aqi"],
-        dominant_pollutant=data["dominant_pollutant"],
+        rural_aqi=rural_aqi,
+        dominant_pollutant=dominant_pollutant,
         data=data_items
     )
 
