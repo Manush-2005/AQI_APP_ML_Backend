@@ -391,11 +391,83 @@ def calculate_pollutant_levels(lat: float, lon: float):
 
 
 
-def calculate_indian_aqi(lat: float, lon: float,pollutants: dict) -> dict:
+# def calculate_pollutants_from_indices(lat: float, lon: float,pollutants: dict) -> dict:
 
  
 
     
+#     breakpoints = {
+#         'PM2.5': [
+#             (0, 30, 0, 50),
+#             (31, 60, 51, 100),
+#             (61, 90, 101, 200),
+#             (91, 120, 201, 300),
+#             (121, 250, 301, 400),
+#             (251, 500, 401, 500)
+#         ],
+#         'PM10': [
+#             (0, 50, 0, 50),
+#             (51, 100, 51, 100),
+#             (101, 250, 101, 200),
+#             (251, 350, 201, 300),
+#             (351, 430, 301, 400),
+#             (431, 1000, 401, 500)
+#         ],
+#         'SO2': [
+#             (0, 40, 0, 50),
+#             (41, 80, 51, 100),
+#             (81, 380, 101, 200),
+#             (381, 800, 201, 300),
+#             (801, 1600, 301, 400),
+#             (1601, 2000, 401, 500)
+#         ],
+#         'NO2': [
+#             (0, 40, 0, 50),
+#             (41, 80, 51, 100),
+#             (81, 180, 101, 200),
+#             (181, 280, 201, 300),
+#             (281, 400, 301, 400),
+#             (401, 1000, 401, 500)
+#         ],
+#         'O3': [
+#             (0, 50, 0, 50),
+#             (51, 100, 51, 100),
+#             (101, 168, 101, 200),
+#             (169, 208, 201, 300),
+#             (209, 748, 301, 400),
+#             (749, 1000, 401, 500)
+#         ]
+#     }
+
+#     def calculate_individual_aqi(cp, pollutant):
+        
+#         for (BP_Lo, BP_Hi, I_Lo, I_Hi) in breakpoints[pollutant]:
+#             if BP_Lo <= cp <= BP_Hi:
+#                 return round(((I_Hi - I_Lo) / (BP_Hi - BP_Lo)) * (cp - BP_Lo) + I_Lo)
+#         return None  
+
+#     individual_aqis = {}
+#     for pollutant, value in pollutants.items():
+#         if pollutant in breakpoints:
+#             aqi = calculate_individual_aqi(value, pollutant)
+#             if aqi is not None:
+#                 individual_aqis[pollutant] = aqi
+
+#     if not individual_aqis:
+#         raise ValueError("No valid pollutant values provided for AQI calculation.")
+
+  
+#     overall_aqi = max(individual_aqis.values())
+#     dominant = max(individual_aqis, key=individual_aqis.get)
+
+#     return {
+#         "individual_aqis": individual_aqis,
+#         "overall_aqi": overall_aqi,
+#         "dominant_pollutant": dominant
+#     }
+
+
+def calculate_levels_from_subindices(subindices: dict) -> dict:
     breakpoints = {
         'PM2.5': [
             (0, 30, 0, 50),
@@ -429,39 +501,50 @@ def calculate_indian_aqi(lat: float, lon: float,pollutants: dict) -> dict:
             (281, 400, 301, 400),
             (401, 1000, 401, 500)
         ],
-        'O3': [
+        'OZONE': [
             (0, 50, 0, 50),
             (51, 100, 51, 100),
             (101, 168, 101, 200),
             (169, 208, 201, 300),
             (209, 748, 301, 400),
             (749, 1000, 401, 500)
-        ]
+        ],
+        'CO': [
+    (0, 1.0, 0, 50),
+    (1.1, 2.0, 51, 100),
+    (2.1, 10.0, 101, 200),
+    (10.1, 17.0, 201, 300),
+    (17.1, 34.0, 301, 400),
+    (34.1, 100.0, 401, 500)
+],
+'NH3': [
+    (0, 200, 0, 50),
+    (201, 400, 51, 100),
+    (401, 800, 101, 200),
+    (801, 1200, 201, 300),
+    (1201, 1800, 301, 400),
+    (1801, 3000, 401, 500)
+]
     }
 
-    def calculate_individual_aqi(cp, pollutant):
-        
-        for (BP_Lo, BP_Hi, I_Lo, I_Hi) in breakpoints[pollutant]:
-            if BP_Lo <= cp <= BP_Hi:
-                return round(((I_Hi - I_Lo) / (BP_Hi - BP_Lo)) * (cp - BP_Lo) + I_Lo)
-        return None  
+    def invert_aqi(aqi, pollutant):
+        for (BP_Lo, BP_Hi, I_Lo, I_Hi) in breakpoints.get(pollutant, []):
+            if I_Lo <= aqi <= I_Hi:
+                
+                cp = ((aqi - I_Lo) * (BP_Hi - BP_Lo) / (I_Hi - I_Lo)) + BP_Lo
+                return round(cp)
+        return None
 
-    individual_aqis = {}
-    for pollutant, value in pollutants.items():
+    levels = {}
+    for pollutant, aqi in subindices.items():
         if pollutant in breakpoints:
-            aqi = calculate_individual_aqi(value, pollutant)
-            if aqi is not None:
-                individual_aqis[pollutant] = aqi
+            level = invert_aqi(aqi, pollutant)
+            if level is not None:
+                levels[pollutant] = level
 
-    if not individual_aqis:
-        raise ValueError("No valid pollutant values provided for AQI calculation.")
+    return levels
 
-  
-    overall_aqi = max(individual_aqis.values())
-    dominant = max(individual_aqis, key=individual_aqis.get)
-
-    return {
-        "individual_aqis": individual_aqis,
-        "overall_aqi": overall_aqi,
-        "dominant_pollutant": dominant
-    }
+# # Example usage:
+# subindices = {'PM2.5': 83, 'PM10': 92, 'NO2': 28, 'SO2': 19, 'CO': 29, 'OZONE': 18, 'NH3': 4}
+# levels = calculate_levels_from_subindices(subindices)
+# print(levels)

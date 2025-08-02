@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List
 from Forecasting import predict_pm25, predict_pm10, predict_O3, predict_NO2, predict_SO2
-from Rural_Predection import calculate_pollutant_levels,calculate_indian_aqi
+from Rural_Predection import calculate_pollutant_levels,calculate_levels_from_subindices
 import requests
 from HealthAdvice import get_health_advice
 import json
@@ -111,14 +111,15 @@ async def get_rural_aqi(request: RuralAQIRequest):
    
     pollutant_levels = calculate_pollutant_levels(lat,lon)
     print(pollutant_levels)
-    # data = calculate_indian_aqi(lat,lon,pollutants=pollutant_levels)
+  
+    data = calculate_levels_from_subindices(subindices=pollutant_levels)
     dominant_pollutant = max(pollutant_levels, key=pollutant_levels.get)
     rural_aqi = pollutant_levels[dominant_pollutant]
    
     
     data_items = [
         dataResponseItem(key=k, value=v)
-        for k, v in pollutant_levels.items()
+        for k, v in data.items()
     ]
 
     params = {
