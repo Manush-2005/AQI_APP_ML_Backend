@@ -98,12 +98,12 @@ async def get_rural_aqi(request: RuralAQIRequest):
     lat = request.lat
     lon = request.lon
 
-    # cached_key = find_nearby_cached_key(lat, lon)
-    # if cached_key:
-    #     cached_data = r.get(cached_key)
-    #     if cached_data:
-    #         print("Returning from cache.")
-    #         return json.loads(cached_data)
+    cached_key = find_nearby_cached_key(lat, lon)
+    if cached_key:
+        cached_data = r.get(cached_key)
+        if cached_data:
+            print("Returning from cache.")
+            return json.loads(cached_data)
 
 
    
