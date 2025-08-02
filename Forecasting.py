@@ -3,11 +3,11 @@ import pandas as pd
 import requests
 import joblib
 
-model_pm25 = joblib.load("PM25Model.pkl")
-model_pm10 = joblib.load("PM10Model.pkl")
-model_NO2 = joblib.load("NO2Model.pkl")
-model_SO2 = joblib.load("SO2Model.pkl")
-model_O3 = joblib.load("O3Model.pkl")
+model_pm25 = joblib.load("./models/PM25Model.pkl")
+model_pm10 = joblib.load("./models/PM10Model.pkl")
+model_NO2 = joblib.load("./models/NO2Model.pkl")
+model_SO2 = joblib.load("./models/SO2Model.pkl")
+model_O3 = joblib.load("./models/O3Model.pkl")
 
 FEATURE_ORDER = [
     "PM2.5",
