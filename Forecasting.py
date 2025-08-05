@@ -97,6 +97,17 @@ def predict_pm25(PM25:float,lat:float,lon:float) -> float:
     return round(prediction[0])
 
 
+def predict_pm25_next_3_days(initial_PM25, lat, lon):
+    predictions = []
+    current_PM25 = initial_PM25
+    for _ in range(3):
+        next_PM25 = predict_pm25(current_PM25, lat, lon)
+        predictions.append(next_PM25)
+        current_PM25 = next_PM25  
+    return predictions
+
+
+
 def predict_pm10(PM10:float,lat:float,lon:float) -> float:
     weather_features = get_weather_features(lat, lon)
     forecasted_features = get_forecasted_features(lat, lon)
@@ -128,6 +139,17 @@ def predict_pm10(PM10:float,lat:float,lon:float) -> float:
    
     prediction = model_pm10.predict(input_df)
     return round(prediction[0])
+
+
+
+def predict_pm10_next_3_days(initial_PM10, lat, lon):
+    predictions = []
+    current_PM10 = initial_PM10
+    for _ in range(3):
+        next_PM10 = predict_pm10(current_PM10, lat, lon)
+        predictions.append(next_PM10)
+        current_PM10 = next_PM10
+    return predictions
 
 
 
@@ -166,6 +188,17 @@ def predict_NO2(NO2:float,lat:float,lon:float) -> float:
     return round(prediction[0])
 
 
+
+def predict_NO2_next_3_days(initial_NO2, lat, lon):
+    predictions = []
+    current_NO2 = initial_NO2
+    for _ in range(3):
+        next_NO2 = predict_NO2(current_NO2, lat, lon)
+        predictions.append(next_NO2)
+        current_NO2 = next_NO2
+    return predictions
+
+
 def predict_SO2(SO2:float,lat:float,lon:float) -> float:
     weather_features = get_weather_features(lat, lon)
     forecasted_features = get_forecasted_features(lat, lon)
@@ -196,6 +229,16 @@ def predict_SO2(SO2:float,lat:float,lon:float) -> float:
     input_df = pd.DataFrame([[input_features[col] for col in FEATURE_ORDER_SO2]], columns=FEATURE_ORDER_SO2)
     prediction = model_SO2.predict(input_df)
     return round(prediction[0])
+
+
+def predict_SO2_next_3_days(initial_SO2, lat, lon):
+    predictions = []
+    current_SO2 = initial_SO2
+    for _ in range(3):
+        next_SO2 = predict_SO2(current_SO2, lat, lon)
+        predictions.append(next_SO2)
+        current_SO2 = next_SO2
+    return predictions
 
 
 
@@ -235,6 +278,15 @@ def predict_O3(O3:float,lat:float,lon:float) -> float:
    
     prediction = model_O3.predict(input_df)
     return round(prediction[0])
+
+def predict_O3_next_3_days(initial_O3, lat, lon):
+    predictions = []
+    current_O3 = initial_O3
+    for _ in range(3):
+        next_O3 = predict_O3(current_O3, lat, lon)
+        predictions.append(next_O3)
+        current_O3 = next_O3
+    return predictions
 
 
 

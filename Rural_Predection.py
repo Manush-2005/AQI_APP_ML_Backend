@@ -118,6 +118,49 @@ def get_nearest_five_stations(lat: float, lon: float):
 
 
 
+
+
+
+def get_all_stations_data():
+    response = requests.get(CPCB_API_URL)
+    if response.status_code != 200:
+        raise Exception("Failed to fetch CPCB XML feed")
+
+    root = ET.fromstring(response.content)
+    stations_data = []
+    for station in root.findall(".//Station"):
+       try:
+        station_lat = float(station.attrib["latitude"])
+        station_lon = float(station.attrib["longitude"])
+       except (KeyError, ValueError):
+        continue
+
+       aqi_tag = station.find("Air_Quality_Index")
+       if aqi_tag is not None and "Value" in aqi_tag.attrib:
+        aqi = float(aqi_tag.attrib["Value"])
+        stations_data.append({
+            "lat": station_lat,
+            "lon": station_lon,
+            "AQI": aqi
+        })
+
+    
+
+
+
+   
+
+    return stations_data
+
+# res = get_all_stations_data()
+
+# print(len(res))
+
+
+
+
+
+
         
         
 

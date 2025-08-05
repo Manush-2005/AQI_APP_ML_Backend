@@ -1,185 +1,151 @@
-
-
 {
   "AQI_categories": [
     {
       "level": "Good",
       "range": "0-50",
-      "advice_general": "Air quality is satisfactory. No special precautions required.",
-      "advice_vulnerable": "Air quality is good. No special precautions required."
+      "advice": ["No special precautions needed"]
     },
     {
       "level": "Satisfactory",
       "range": "51-100",
-      "advice_general": "Air quality is acceptable. Minimize prolonged or strenuous outdoor exertion if sensitive.",
-      "advice_vulnerable": "Minimize prolonged or strenuous outdoor exertion."
+      "advice": ["Avoid prolonged or strenuous outdoor exertion if sensitive"]
     },
     {
       "level": "Moderate",
       "range": "101-200",
-      "advice_general": "Reduce prolonged or heavy outdoor activities, especially children, elderly and those with respiratory illness.",
-      "advice_vulnerable": "Avoid prolonged or strenuous outdoor exertion."
+      "advice": ["Reduce prolonged or heavy outdoor activities", "Children, elderly and respiratory patients should limit outdoor exertion"]
     },
     {
       "level": "Poor",
       "range": "201-300",
-      "advice_general": "Limit outdoor activities. Vulnerable groups should avoid outdoor activities.",
-      "advice_vulnerable": "Avoid all outdoor activities; stay indoors if possible."
+      "advice": ["Limit outdoor activities", "Vulnerable groups should avoid outdoor activities", "Wear a mask if you must go outside"]
     },
     {
       "level": "Very Poor",
       "range": "301-400",
-      "advice_general": "Avoid outdoor exertion; use masks when outdoors; keep windows closed.",
-      "advice_vulnerable": "Stay indoors, use air purifiers if possible, avoid physical activity."
+      "advice": ["Avoid outdoor exertion", "Wear a mask when outdoors", "Keep windows closed", "Use air purifier indoors"]
     },
     {
       "level": "Severe",
       "range": "401-500",
-      "advice_general": "Avoid all outdoor activities; wear N95/99 masks if going outside; keep indoor air clean.",
-      "advice_vulnerable": "Remain indoors, use air purifiers, avoid all physical exertion."
+      "advice": ["Avoid all outdoor activities", "Wear N95/99 mask if going outside", "Keep indoor air clean", "Use air purifier"]
     }
   ],
   "pollutants": {
     "PM2.5": [
       {
         "range": "0-10",
-        "advice_general": "Air quality for PM2.5 is very good. No precautions needed.",
-        "advice_vulnerable": "No precautions necessary."
+        "advice": ["No precautions needed"]
       },
       {
         "range": "11-25",
-        "advice_general": "PM2.5 levels are moderate. Sensitive individuals should reduce prolonged outdoor exertion.",
-        "advice_vulnerable": "Minimize outdoor activity."
+        "advice": ["Sensitive individuals should reduce prolonged outdoor exertion", "Avoid jogging or heavy exercise outdoors"]
       },
       {
         "range": "26-60",
-        "advice_general": "PM2.5 is unhealthy for sensitive groups. Reduce outdoor exertion, especially children, elderly, and those with lung diseases.",
-        "advice_vulnerable": "Avoid outdoor activities."
+        "advice": ["Avoid outdoor activities especially children, elderly, respiratory patients", "Wear masks outdoors"]
       },
       {
         "range": "61-90",
-        "advice_general": "Unhealthy PM2.5 levels for all. Avoid outdoor exertion, wear masks if going outside.",
-        "advice_vulnerable": "Stay indoors as much as possible."
+        "advice": ["Avoid outdoor exertion", "Wear masks if going outside", "Stay indoors as much as possible"]
       },
       {
         "range": ">90",
-        "advice_general": "Very unhealthy PM2.5 levels. Avoid outdoor activities altogether; use air purifiers indoors.",
-        "advice_vulnerable": "Remain indoors, use N95 masks if unavoidable to go out."
+        "advice": ["Avoid outdoor activities altogether", "Use air purifier indoors", "Wear N95 masks if going outside is unavoidable"]
       }
     ],
     "PM10": [
       {
         "range": "0-20",
-        "advice_general": "PM10 levels are good. No precautions necessary.",
-        "advice_vulnerable": "No precautions necessary."
+        "advice": ["No precautions needed"]
       },
       {
         "range": "21-50",
-        "advice_general": "PM10 levels are moderate. Sensitive groups should minimize outdoor exertion.",
-        "advice_vulnerable": "Limit outdoor activity."
+        "advice": ["Sensitive groups should minimize outdoor exertion", "Avoid heavy outdoor exercise"]
       },
       {
         "range": "51-100",
-        "advice_general": "PM10 unhealthy for sensitive groups. Reduce outdoor exertion.",
-        "advice_vulnerable": "Avoid outdoor activities."
+        "advice": ["Avoid outdoor activities especially sensitive groups", "Wear mask outdoors"]
       },
       {
         "range": "101-200",
-        "advice_general": "Unhealthy PM10 levels. Avoid outdoor exertion; wear masks if outside.",
-        "advice_vulnerable": "Stay indoors where possible."
+        "advice": ["Avoid outdoor exertion", "Wear mask if outside", "Stay indoors where possible"]
       },
       {
         "range": ">200",
-        "advice_general": "Very unhealthy PM10 levels. Avoid any outdoor activity; use air purifiers indoors.",
-        "advice_vulnerable": "Remain indoors, wear N95 masks if outside."
+        "advice": ["Avoid any outdoor activity", "Use air purifier indoors", "Wear N95 masks if going outside"]
       }
     ],
     "CO": [
       {
         "range": "0-1",
-        "advice_general": "CO levels are safe. No precautions needed.",
-        "advice_vulnerable": "No precautions needed."
+        "advice": ["No precautions needed"]
       },
       {
         "range": "1.1-2",
-        "advice_general": "CO slightly elevated. Avoid heavy exertion near traffic.",
-        "advice_vulnerable": "Avoid exposure near congested roads."
+        "advice": ["Avoid heavy exertion near traffic", "Limit outdoor activity near congested roads"]
       },
       {
         "range": "2.1-10",
-        "advice_general": "High CO levels. Wear mask outdoors; avoid congested roads and enclosed spaces with vehicle emissions.",
-        "advice_vulnerable": "Stay indoors; use air purifiers."
+        "advice": ["Wear mask outdoors", "Avoid congested roads and enclosed spaces with vehicle emissions", "Stay indoors and use air purifiers"]
       },
       {
         "range": ">10",
-        "advice_general": "Very high CO levels. Avoid outdoor activities; seek medical help if symptoms appear.",
-        "advice_vulnerable": "Remain indoors; use medical support if breathlessness or chest pain occurs."
+        "advice": ["Avoid outdoor activities", "Seek medical help if symptoms appear", "Remain indoors"]
       }
     ],
     "NO2": [
       {
         "range": "0-40",
-        "advice_general": "NO2 levels are safe. No precautions needed.",
-        "advice_vulnerable": "No special precautions."
+        "advice": ["No special precautions needed"]
       },
       {
         "range": "41-80",
-        "advice_general": "Moderate NO2 levels. Sensitive groups should limit outdoor exertion.",
-        "advice_vulnerable": "Limit outdoor activity."
+        "advice": ["Sensitive groups should limit outdoor exertion", "Avoid strenuous outdoor exercise"]
       },
       {
         "range": "81-180",
-        "advice_general": "High NO2 levels. Reduce outdoor activities; avoid traffic-heavy areas.",
-        "advice_vulnerable": "Stay indoors when possible."
+        "advice": ["Reduce outdoor activities", "Avoid traffic-heavy areas", "Wear masks outdoors"]
       },
       {
         "range": ">180",
-        "advice_general": "Very high NO2 levels. Avoid outdoor exposure and strenuous activity.",
-        "advice_vulnerable": "Remain indoors; use air purifiers."
+        "advice": ["Avoid outdoor exposure and strenuous activity", "Remain indoors", "Use air purifier"]
       }
     ],
     "SO2": [
       {
         "range": "0-20",
-        "advice_general": "SO2 levels are safe. No precautions needed.",
-        "advice_vulnerable": "No special precautions."
+        "advice": ["No special precautions needed"]
       },
       {
         "range": "21-80",
-        "advice_general": "Moderate SO2 levels. Sensitive groups should limit outdoor exertion.",
-        "advice_vulnerable": "Limit outdoor activities."
+        "advice": ["Sensitive groups should limit outdoor exertion", "Avoid heavy outdoor work"]
       },
       {
         "range": "81-380",
-        "advice_general": "High SO2 levels. Reduce outdoor activities, especially near industrial sites.",
-        "advice_vulnerable": "Stay indoors if possible."
+        "advice": ["Reduce outdoor activities especially near industrial sites", "Wear masks outdoors if needed"]
       },
       {
         "range": ">380",
-        "advice_general": "Very high SO2 levels. Avoid outdoor exposure; seek medical attention if symptoms develop.",
-        "advice_vulnerable": "Remain indoors; use air purifiers."
+        "advice": ["Avoid outdoor exposure", "Seek medical attention if symptoms develop", "Remain indoors", "Use air purifier"]
       }
     ],
     "NH3": [
       {
         "range": "0-200",
-        "advice_general": "NH3 levels are within safe limits.",
-        "advice_vulnerable": "No precautions necessary."
+        "advice": ["No precautions needed"]
       },
       {
         "range": "201-400",
-        "advice_general": "Elevated NH3 levels. Sensitive groups should limit outdoor exertion.",
-        "advice_vulnerable": "Reduce outdoor exposure."
+        "advice": ["Sensitive groups should limit outdoor exertion", "Avoid heavy outdoor activity"]
       },
       {
         "range": "401-800",
-        "advice_general": "High NH3 levels. Avoid outdoor activities; close doors and windows.",
-        "advice_vulnerable": "Remain indoors."
+        "advice": ["Avoid outdoor activities", "Keep doors and windows closed", "Remain indoors"]
       },
       {
         "range": ">800",
-        "advice_general": "Very high NH3 levels. Avoid all outdoor exposure; seek fresh indoor air with purification.",
-        "advice_vulnerable": "Stay indoors; use air purifiers."
+        "advice": ["Avoid all outdoor exposure", "Seek fresh indoor air with purification", "Use air purifier"]
       }
     ]
   }
