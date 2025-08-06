@@ -8,6 +8,3 @@ r = redis.Redis(
     username="default",
     password="fj4qcz48xIsGp1X4iyNhJyp6pt1UxFks",
 )
-# success = r.set('foo', 'bar')
-# result = r.get('foo')
-# print(result)

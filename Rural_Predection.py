@@ -152,9 +152,7 @@ def get_all_stations_data():
 
     return stations_data
 
-# res = get_all_stations_data()
 
-# print(len(res))
 
 
 
