@@ -70,7 +70,7 @@ class AQIForecastingResponse(BaseModel):
 
 # Caching function using redis
 
-CACHE_RADIUS_KM = 20 
+CACHE_RADIUS_KM = 10 
 CACHE_TTL_SECONDS = 1800  
 
 def is_within_radius(coord1, coord2, radius_km=3):
