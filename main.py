@@ -9,6 +9,7 @@ from HealthAdvice import get_health_advice
 import json
 from geopy.distance import geodesic
 from Mapping_services import get_nearby_hospitals
+from History import calculate_daily_aqi_from_averages
 
 from redis_client import r
 url = "https://api.open-meteo.com/v1/forecast"
@@ -192,6 +193,16 @@ async def get_nearest_hospitals(lat: float, lon: float):
 
     hospitals = get_nearby_hospitals(lat, lon, radius=20000)
     return hospitals
+
+
+@app.get("/HistoryAQIData")
+async def get_history_aqi_data(lat: float, lon: float):
+    
+    res = calculate_daily_aqi_from_averages(lat,lon)
+    
+    
+    return res
+
 
 
 # Endpoint to get hospitals for area beyond a level 

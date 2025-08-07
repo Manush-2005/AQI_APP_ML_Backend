@@ -1,9 +1,8 @@
 import requests
 
 
-# nearby hospital using overpass.
 
-def get_nearby_hospitals(lat, lon, radius=10000):
+def get_nearby_hospitals(lat, lon, radius=30000):
     
     overpass_url = "https://overpass-api.de/api/interpreter"
     query = query = f"""
@@ -26,8 +25,3 @@ out center 3;
         print(f"Overpass API failed: {e}")
         return []
 
-
-lat = 30.6989
-lon = 76.6898
-hospitals = get_nearby_hospitals(lat, lon)
-print(hospitals)
