@@ -158,55 +158,18 @@ def get_health_advice(input_json: HealthAdviceInput) -> dict:
     dominant_level = next((item for item in input_json.data if item.key == dominant_pollutant), None)
     
 
-input = {
-  "rural_aqi": 73,
-  "dominant_pollutant": "PM2.5",
-  "data": [
-    { "key": "PM2.5", "value": 44 },
-    { "key": "PM10", "value": 59 },
-    { "key": "NO2", "value": 38 },
-    { "key": "SO2", "value": 30 },
-    { "key": "CO", "value": 23 },
-    { "key": "OZONE", "value": 28 },
-    { "key": "NH3", "value": 4 }
-  ]
-}
-ans = get_health_advice(input_json=HealthAdviceInput(**input))
-print(ans)
-#     response = client.chat.completions.create(
-#         model="moonshotai/kimi-k2-instruct",
-#         messages=[
-#             {
-#                 "role": "system",
-#                 "content": (
-#                     "You are an expert air quality and environmental health assistant. "
-#                     "You will receive current pollutant levels and weather data. "
-#                     "You have knowledge of the dominant pollutant and its health effects. "
-#                     f"This is your data : {all_info}\n"
-#                 )
-#             },
-#             {
-#                 "role": "user",
-#                 "content": (
-#                     "Here is the current air quality data:\n"
-
-#                     f"This is the dominant pollutant: {dominant_pollutant}\n"
-#                     f"This is the dominant pollutant level: {dominant_level}\n"
-#                     "Return your response as structured JSON as per the expected schema."
-#                 )
-#             }
-#         ],
-#         response_format={
-#             "type": "json_schema",
-#             "json_schema": {
-#                 "name": "health_advice",
-#                 "schema": HealthAdviceOutput.model_json_schema()
-#             }
-#         }
-#     )
-
-#     review = HealthAdviceOutput.model_validate(json.loads(response.choices[0].message.content))
-#     return review.model_dump()
-
-
-
+# input = {
+#   "rural_aqi": 73,
+#   "dominant_pollutant": "PM2.5",
+#   "data": [
+#     { "key": "PM2.5", "value": 100 },
+#     { "key": "PM10", "value": 59 },
+#     { "key": "NO2", "value": 38 },
+#     { "key": "SO2", "value": 30 },
+#     { "key": "CO", "value": 23 },
+#     { "key": "OZONE", "value": 28 },
+#     { "key": "NH3", "value": 4 }
+#   ]
+# }
+# ans = get_health_advice(input_json=HealthAdviceInput(**input))
+# print(ans)

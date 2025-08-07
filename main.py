@@ -8,6 +8,7 @@ import requests
 from HealthAdvice import get_health_advice
 import json
 from geopy.distance import geodesic
+from Mapping_services import get_nearby_hospitals
 
 from redis_client import r
 url = "https://api.open-meteo.com/v1/forecast"
@@ -69,7 +70,7 @@ class AQIForecastingResponse(BaseModel):
 
 # Caching function using redis
 
-CACHE_RADIUS_KM = 3  
+CACHE_RADIUS_KM = 20 
 CACHE_TTL_SECONDS = 1800  
 
 def is_within_radius(coord1, coord2, radius_km=3):
@@ -184,6 +185,13 @@ async def get_health_advice_route(request: HealthAdviceRequest):
 @app.get("/getallstations")
 async def get_all_stations():
     return get_all_stations_data()
+
+
+@app.get("/getnearesthospitals")
+async def get_nearest_hospitals(lat: float, lon: float):
+
+    hospitals = get_nearby_hospitals(lat, lon, radius=20000)
+    return hospitals
 
 
 # Endpoint to get hospitals for area beyond a level 
