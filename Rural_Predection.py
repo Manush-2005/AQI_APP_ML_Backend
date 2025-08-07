@@ -136,13 +136,42 @@ def get_all_stations_data():
         continue
 
        aqi_tag = station.find("Air_Quality_Index")
+       pm25 = None
+       pm10 = None
+       for pollutant in station.findall("Pollutant_Index"):
+            pid = pollutant.attrib.get("id", "").upper().replace(" ", "")
+            avg_val = pollutant.attrib.get("Avg", "NA")
+            if pid == "PM2.5" and avg_val != "NA":
+                try:
+                    pm25 = float(avg_val)
+                except ValueError:
+                    pass
+            if pid == "PM10" and avg_val != "NA":
+                try:
+                    pm10 = float(avg_val)
+                except ValueError:
+                    pass
        if aqi_tag is not None and "Value" in aqi_tag.attrib:
         aqi = float(aqi_tag.attrib["Value"])
-        stations_data.append({
+        if pm25 is not None and pm10 is not None:
+                subindices = {'PM2.5': pm25, 'PM10': pm10}
+                levels = calculate_levels_from_subindices(subindices)
+                pm25_level = levels.get("PM2.5", 0)
+                pm10_level = levels.get("PM10", 0)
+        else:
+                pm25_level = 0
+                pm10_level = 0
+       
+         
+
+       stations_data.append({
             "lat": station_lat,
             "lon": station_lon,
-            "AQI": aqi
+            "AQI": aqi,
+            "PM2.5": pm25,
+            "PM10": pm10
         })
+       
 
     
 
@@ -151,6 +180,8 @@ def get_all_stations_data():
    
 
     return stations_data
+
+
 
 
 
