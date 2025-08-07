@@ -9,7 +9,7 @@ from HealthAdvice import get_health_advice
 import json
 from geopy.distance import geodesic
 from Mapping_services import get_nearby_hospitals
-from History import calculate_daily_aqi_from_averages
+from History import calculate_daily_aqi_from_averages,get_monthly_aqi_from_averages
 
 from redis_client import r
 url = "https://api.open-meteo.com/v1/forecast"
@@ -201,6 +201,12 @@ async def get_history_aqi_data(lat: float, lon: float):
     res = calculate_daily_aqi_from_averages(lat,lon)
     
     
+    return res
+
+@app.get("/HistoryAQIDataMonthly")
+async def get_history_aqi_data_monthly(lat: float, lon: float):
+
+    res = get_monthly_aqi_from_averages(lat,lon)
     return res
 
 
