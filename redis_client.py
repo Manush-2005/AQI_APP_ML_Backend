@@ -2,9 +2,9 @@ import redis
 
 
 r = redis.Redis(
-    host='redis-16749.c274.us-east-1-3.ec2.redns.redis-cloud.com',
-    port=16749,
+    host='redis-18596.c241.us-east-1-4.ec2.redns.redis-cloud.com',
+    port=18596,
     decode_responses=True,
     username="default",
-    password="fj4qcz48xIsGp1X4iyNhJyp6pt1UxFks",
+    password="xZj5ra7a0VVcjJKsTtKJDqzl9aLfzSei",
 )
